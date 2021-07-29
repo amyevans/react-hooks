@@ -1,11 +1,11 @@
 // useEffect: persistent state
 // http://localhost:3000/isolated/exercise/02.js
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function Greeting({initialName = ''}) {
-  const [name, setName] = React.useState(
-    window.localStorage.getItem('name') || initialName
+  const [name, setName] = useState(
+    () => window.localStorage.getItem('name') || initialName
   );
 
   useEffect(() => {
