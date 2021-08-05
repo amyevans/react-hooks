@@ -4,10 +4,23 @@
 import * as React from 'react'
 
 function Board() {
-  const [squares, setSquares] = React.useState(Array(9).fill(null));
+  const [squares, setSquares] = React.useState(
+    () => {
+      const value = window.localStorage.getItem('tictactoesquares');
+      if (value) {
+        return JSON.parse(value);
+      }
+      return Array(9).fill(null);
+    }
+  );
   const nextValue = calculateNextValue(squares);
   const winner = calculateWinner(squares);
   const status = calculateStatus(winner, squares, nextValue);
+
+  React.useEffect(() => {
+    const value = JSON.stringify(squares);
+    window.localStorage.setItem('tictactoesquares', value);
+  }, [squares]);
 
   function selectSquare(square) {
     if (winner || squares[square]) {
